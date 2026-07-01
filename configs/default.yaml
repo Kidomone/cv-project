@@ -1,0 +1,8 @@
+epochs: 25
+batch_size: 16
+img_size: 416
+patience: 5
+device: 0
+
+data_config: "data/raw/road-sign-detection-upaa2-iylg2/data.yaml"
+project_dir: "results"
