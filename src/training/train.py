@@ -1,4 +1,3 @@
-# src/training/train.py
 import os
 import yaml
 from src.models.models import get_model
@@ -11,13 +10,14 @@ def run_training(model_name: str, config_path: str):
         config = yaml.safe_load(f)
         
     prepare_data(config['data_config'])
-    model = get_model(model_name)
+    num_classes = 4 
+    model = get_model(model_name, num_classes=num_classes)
     exp_name = f"{model_name}_experiment"
     
     model.train(
         data=config['data_config'],
         epochs=config['epochs'],
-        batch=config['batch_size'],
+        batch=4,
         imgsz=config['img_size'],
         patience=config['patience'],
         device=config['device'],

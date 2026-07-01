@@ -2,7 +2,7 @@
 import torch
 import torchvision
 from torchvision.models.detection import FasterRCNN_ResNet50_FPN_Weights, SSD300_VGG16_Weights
-from ultralytics import YOLO
+from ultralytics import YOLO, RTDETR
 
 def get_model(model_name: str, num_classes: int):
 
@@ -18,7 +18,7 @@ def get_model(model_name: str, num_classes: int):
         
     elif name == 'rt-detr':
         print("Инициализация RT-DETR...")
-        return YOLO('rt-detr-n.pt')
+        return RTDETR('rtdetr-l.pt')
         
     elif name == 'faster_rcnn':
         print("Инициализация Faster R-CNN (ResNet50)...")

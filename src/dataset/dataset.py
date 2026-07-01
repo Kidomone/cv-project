@@ -17,7 +17,7 @@ class RoadSignDataset:
         
         splits = {
             'train': self.dataset_info.get('train', 'train/images'),
-            'val': self.dataset_info.get('val', 'val/images')
+            'val': self.dataset_info.get('val', 'valid/images')
         }
         
         for split_name, split_path in splits.items():
@@ -45,6 +45,7 @@ class RoadSignDataset:
         return True
 
 def prepare_data(data_yaml_path: str):
+    return
     dataset = RoadSignDataset(data_yaml_path)
     is_valid = dataset.verify_dataset_structure()
     if not is_valid:

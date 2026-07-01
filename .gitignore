@@ -3,12 +3,12 @@ data/raw/*
 data/processed/*
 !data/processed/.gitkeep
 
-results/*
 !results/.gitkeep
 !results/logs/
 !results/logs/.gitkeep
 !results/plots/
 !results/plots/.gitkeep
+runs/
 
 *.pt
 *.onnx
