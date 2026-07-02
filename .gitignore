@@ -9,6 +9,7 @@ data/processed/*
 !results/plots/
 !results/plots/.gitkeep
 runs/
+evaluate.py
 
 *.pt
 *.onnx
