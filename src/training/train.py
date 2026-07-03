@@ -68,7 +68,7 @@ def run_training(model_name: str, config_path: str):
             train_dataset = RoadSignDataset(config['data_config'], split='train')
             train_loader = DataLoader(
                 train_dataset, 
-                batch_size=4, 
+                batch_size=16, 
                 shuffle=True, 
                 num_workers=2, 
                 collate_fn=collate_fn
@@ -80,7 +80,7 @@ def run_training(model_name: str, config_path: str):
             )
 
         params = [p for p in model.parameters() if p.requires_grad]
-        optimizer = torch.optim.SGD(params, lr=0.005, momentum=0.9, weight_decay=0.0005)
+        optimizer = torch.optim.SGD(params, lr=0.0001, momentum=0.9, weight_decay=0.0005)
         
         epochs = config['epochs']
         best_loss = float('inf')
@@ -96,7 +96,11 @@ def run_training(model_name: str, config_path: str):
                 
         print(f"Обучение {model_name} завершено")
         
-    visualize_random_prediction(model_path=best_model_path, dataset_yaml_path=config['data_config'])
+    visualize_random_prediction(
+    model_path=best_model_path, 
+    dataset_yaml_path=config['data_config'],
+    model_name=model_name
+    )
     
     evaluate_model(
         model_path=best_model_path,

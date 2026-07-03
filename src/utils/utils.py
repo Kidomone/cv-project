@@ -41,23 +41,23 @@ def visualize_random_prediction(model_path: str, dataset_yaml_path: str, output_
     image_path = os.path.join(val_images_dir, random_image_name)
     output_path = os.path.join(output_dir, f"pred_{random_image_name}")
 
-    if 'yolo' in model_name.lower():
+    if 'yolo' in model_name.lower() or 'detr' in model_name.lower():
         from ultralytics import YOLO
         model = YOLO(model_path)
         results = model(image_path, imgsz=416)
         annotated_frame = results[0].plot() 
         cv2.imwrite(output_path, annotated_frame)
-        print(f"Визуализация предсказания YOLO сохранена в: {output_path}")
+        print(f"Визуализация предсказания Ultralytics ({model_name}) сохранена в: {output_path}")
         return
 
     checkpoint = torch.load(model_path, map_location='cpu')
     num_classes = int(info.get('nc', 4)) + 1
     
     if 'faster_rcnn' in model_name.lower():
-        model = fasterrcnn_resnet50_fpn(num_classes=num_classes, pretrained=False)
+        model = fasterrcnn_resnet50_fpn(num_classes=num_classes, weights=None)
     else:
         from torchvision.models.detection import ssd300_vgg16
-        model = ssd300_vgg16(num_classes=num_classes, pretrained=False)
+        model = ssd300_vgg16(num_classes=91, weights=None)
         
     if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
         model.load_state_dict(checkpoint['model_state_dict'])

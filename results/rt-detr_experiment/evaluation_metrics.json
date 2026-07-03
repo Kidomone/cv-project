@@ -1,0 +1,8 @@
+{
+    "model_name": "rt-detr",
+    "precision": 0.9234,
+    "recall": 0.8433,
+    "mAP_50": 0.8833,
+    "mAP_50_95": 0.6593,
+    "fitness": 0.6593
+}
