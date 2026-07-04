@@ -1,0 +1,8 @@
+{
+    "model_name": "ssd_adamw",
+    "precision": 0.6062,
+    "recall": 0.6267,
+    "mAP_50": 0.7907,
+    "mAP_50_95": 0.6175,
+    "fitness": 0.6348
+}

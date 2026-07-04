@@ -11,11 +11,7 @@ def main():
 
     dataset_yaml = "data/raw/road-sign-detection-2/data.yaml" 
     
-    if "yolo" in args.model.lower() or "detr" in args.model.lower():
-        model_path = f"runs/detect/results/{args.model}_experiment/weights/best.pt"
-
-    else:
-        model_path = f"results/{args.model}_experiment/weights/best.pt"
+    model_path = f"results/{args.model}_experiment/weights/best.pt"
 
     print(f"Ищем веса по пути: {model_path}")
     

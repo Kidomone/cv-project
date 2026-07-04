@@ -35,7 +35,12 @@ def run_training(model_name: str, config_path: str):
         config = yaml.safe_load(f)
         
     prepare_data(config['data_config'])
-    num_classes = 4 
+    if model_name.lower() == 'ssd':
+        num_classes = 91
+        exp_name = "ssd_experiment"
+    else:
+        num_classes = 4
+        exp_name = f"{model_name}_experiment"
     model = get_model(model_name, num_classes=num_classes)
     exp_name = f"{model_name}_experiment"
     
@@ -47,16 +52,18 @@ def run_training(model_name: str, config_path: str):
     best_model_path = os.path.join(weights_dir, "best.pt")
 
     if model_name.lower() in ['yolov8', 'yolo26', 'rt-detr']:
+        exp_name = f"{model_name}_experiment"
+        
         model.train(
             data=config['data_config'],
             epochs=config['epochs'],
-            batch=4,
+            batch=16,
             imgsz=config['img_size'],
             patience=config['patience'],
             device=config['device'],
             project=config['project_dir'],
             name=exp_name,
-            exist_ok=True
+            exist_ok=True,
         )
     else:
         try:
@@ -80,7 +87,7 @@ def run_training(model_name: str, config_path: str):
             )
 
         params = [p for p in model.parameters() if p.requires_grad]
-        optimizer = torch.optim.SGD(params, lr=0.0001, momentum=0.9, weight_decay=0.0005)
+        optimizer = torch.optim.AdamW(params, lr=1e-4, weight_decay=1e-4)
         
         epochs = config['epochs']
         best_loss = float('inf')
@@ -97,9 +104,9 @@ def run_training(model_name: str, config_path: str):
         print(f"Обучение {model_name} завершено")
         
     visualize_random_prediction(
-    model_path=best_model_path, 
-    dataset_yaml_path=config['data_config'],
-    model_name=model_name
+      model_path=best_model_path, 
+      dataset_yaml_path=config['data_config'],
+      model_name=model_name
     )
     
     evaluate_model(
